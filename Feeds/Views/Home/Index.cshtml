@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Feeds";
+}
+
+<div class="page-header">
+    <h1>Feeds</h1>
+</div>
+
+<div class="list-group">
+    @Html.ActionLink("Scheduler", "Index", "Scheduler", null, new { @class = "list-group-item" })
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Log</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped logs">
+            <thead>
+                <tr>
+                    <th style="width: 150px;">DateTime</th>
+                    <th style="width: 120px;">IP</th>
+                    <th>URL</th>
+                    <th style="width: 300px;">Agent</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(".logs").dataTable({
+            "autoWidth": false,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": '@Url.Action("GetLogItems","Ajax")',
+                "type": "POST"
+            },
+            "columns": [
+                {
+                    "name": "EntryDateTime",
+                    "data": function (row, type, set, meta) {
+                        // example: /Date(1332781275000)/
+                        var m = moment(new Date(parseInt(row.EntryDateTime.substr(6))));
+                        return m.format("YYYY-MM-DD HH:mm:ss");
+                    }
+                },
+                { "data": "RequestIP" },
+                { "data": "RequestURL" },
+                { "data": "RequestUserAgent" }
+            ]
+        });
+    </script>
+}

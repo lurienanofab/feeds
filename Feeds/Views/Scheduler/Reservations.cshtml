@@ -1,0 +1,38 @@
+﻿@model Feeds.Models.SchedulerReservationsModel
+@{
+    ViewBag.Title = "Scheduler Reservation Feeds";
+}
+
+<div class="page-header">
+    <h1>Scheduler Reservation Feeds</h1>
+</div>
+
+@using (Html.BeginForm("ReservationsGetFeed", "Scheduler", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Format, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.DropDownListFor(x => x.Format, new[] { new SelectListItem() { Value = "calendar", Text = "Calendar" } }, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.UserName, "User", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.DropDownListFor(x => x.UserName, Model.UserOptions, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.ResourceID, "Tool", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.DropDownListFor(x => x.ResourceID, Model.ToolOptions, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Get Feed</button>
+        </div>
+    </div>
+}
